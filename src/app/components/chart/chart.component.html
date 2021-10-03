@@ -1,0 +1,19 @@
+<div class="content" role="main">
+  <div id="chart">
+      <div [id]="this.chartId"></div>
+  </div>
+  <div id="sliders">
+    <span class="title">Параметри моделі</span><br/>
+    <span>Амплітуда (А)</span>
+    <ngx-slider [(value)]="ecgModel.T[0]"  [options]="options" (userChange)="onSliderChanged()"></ngx-slider>  
+    <span>Час (Мю)</span>
+    <ngx-slider [(value)]="ecgModel.T[1]" [options]="options" (userChange)="onSliderChanged()"></ngx-slider> 
+    <span>Ширина (b(1))</span>
+    <ngx-slider [(value)]="ecgModel.T[2]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
+    <span>Ширина (b(2))</span>
+    <ngx-slider [(value)]="ecgModel.T[3]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
+    <br/><br/><span class="title">Загальні параметри</span><br/>
+    <span>ЧСС (уд./хв.)</span>
+    <ngx-slider [(value)]="ecgModel.Fh"  [options]="optionsFn" (userChange)="onSliderChanged()"></ngx-slider>   
+  </div>
+</div>

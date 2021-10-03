@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+span {
+  font-family: "Oxygen", Arial, Helvetica, sans-serif;
+  font-size: 17px;
+}
+
+div { 
+  height: 100% 
+}
+
+.title {
+  font-size: 22px;
+  display: block;
+  text-align: center;
+}
+
+#chart {
+  width: 70%; 
+  display: inline-block;
+  height: 100vh;
+}
+
+#sliders {
+  padding-left: 2%;
+  width: 26%; 
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 1%;
+}
