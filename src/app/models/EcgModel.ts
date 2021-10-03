@@ -10,6 +10,4 @@ export class EcgModel {
         'ST': [0, 0.631, 0.01, 0.012], 
         'T':  [0.188, 0.7594, 0.03, 0.026] 
     }
-
-    public inputValues = this.prongs['T'];
 }

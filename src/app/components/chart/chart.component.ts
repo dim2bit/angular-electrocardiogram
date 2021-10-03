@@ -16,16 +16,16 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   public ecgModel: EcgModel = new EcgModel;
   public points: Point[];
-  public radioId: string;
+  public radioId: string = 'T';
+  public currentProng = this.ecgModel.prongs['T'];
 
-  public options: Options = { floor: 0, ceil: 1, step: 0.05 }; 
+  public optionsNu: Options = { floor: 0, ceil: 1, step: 0.05 }; 
   public optionsAmpl: Options = { floor: -0.5, ceil: 1.2, step: 0.05 }; 
   public optionsB: Options = { floor: 0.001, ceil: 0.25, step: 0.001 }; 
   public optionsFn: Options = { floor: 30, ceil: 130, step: 1 };
 
   constructor(private chartService: ChartService) {
     this.points = chartService.getPoints(this.ecgModel);
-    this.radioId = 'T';
   }
 
   ngOnChanges() {
@@ -48,16 +48,28 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   public onSliderChanged() {
-    this.ecgModel.t0 = 60 / this.ecgModel.Fh;
-    this.ecgModel.prongs[this.radioId] = this.ecgModel.inputValues;
-    this.points = this.chartService.getPoints(this.ecgModel);
-    this.lineSeries.clear();
-    this.lineSeries.add(this.points);
+    this.refreshEcgModelOnSliderChange(this.radioId);
+    this.refreshGraph();
   }
 
   public onRadioChanged(event: Event) {
     this.radioId = (event.target as Element).id;
-    this.ecgModel.inputValues = this.ecgModel.prongs[this.radioId];
-    this.onSliderChanged();
+    this.refreshEcgModelOnRadioChange(this.radioId);
+    this.refreshGraph();
+  }
+
+  private refreshGraph() {
+    this.points = this.chartService.getPoints(this.ecgModel);
+    this.lineSeries.clear();
+    this.lineSeries.add(this.points);
+  }
+  
+  private refreshEcgModelOnRadioChange(prong: string) {
+    this.currentProng = this.ecgModel.prongs[prong];
+  }
+
+  private refreshEcgModelOnSliderChange(prong: string) {
+    this.ecgModel.t0 = 60 / this.ecgModel.Fh;
+    this.ecgModel.prongs[prong] = this.currentProng;
   }
 }
