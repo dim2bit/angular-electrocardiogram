@@ -27,3 +27,11 @@ div {
   vertical-align: top;
   margin-top: 1%;
 }
+
+#prong-radios {
+  font-size: large;
+}
+
+input[type="radio"] {
+  margin-right: 5%;
+}

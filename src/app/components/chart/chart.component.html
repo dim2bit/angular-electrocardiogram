@@ -3,15 +3,35 @@
       <div [id]="this.chartId"></div>
   </div>
   <div id="sliders">
-    <span class="title">Параметри моделі</span><br/>
+    <span class="title">Обраний зубець</span><br/>
+    <div id="prong-radios">
+      <label for="prong-P">P</label>
+      <input type="radio" id="P" name="prong" (change)="onRadioChanged($event)">
+
+      <label for="prong-Q">Q</label>
+      <input type="radio" id="Q" name="prong" (change)="onRadioChanged($event)">
+
+      <label for="prong-R">R</label>
+      <input type="radio" id="R" name="prong" (change)="onRadioChanged($event)">
+
+      <label for="prong-S">S</label>
+      <input type="radio" id="S" name="prong" (change)="onRadioChanged($event)">
+
+      <label for="prong-ST">ST</label>
+      <input type="radio" id="ST" name="prong" (change)="onRadioChanged($event)">
+
+      <label for="prong-T">T</label>
+      <input type="radio" id="T" name="prong" (change)="onRadioChanged($event)" checked>
+    </div>
+    <br/><span class="title">Параметри моделі</span><br/>
     <span>Амплітуда (А)</span>
-    <ngx-slider [(value)]="ecgModel.T[0]"  [options]="options" (userChange)="onSliderChanged()"></ngx-slider>  
+    <ngx-slider [(value)]="ecgModel.inputValues[0]"  [options]="optionsAmpl" (userChange)="onSliderChanged()"></ngx-slider>  
     <span>Час (Мю)</span>
-    <ngx-slider [(value)]="ecgModel.T[1]" [options]="options" (userChange)="onSliderChanged()"></ngx-slider> 
+    <ngx-slider [(value)]="ecgModel.inputValues[1]" [options]="options" (userChange)="onSliderChanged()"></ngx-slider> 
     <span>Ширина (b(1))</span>
-    <ngx-slider [(value)]="ecgModel.T[2]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
+    <ngx-slider [(value)]="ecgModel.inputValues[2]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
     <span>Ширина (b(2))</span>
-    <ngx-slider [(value)]="ecgModel.T[3]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
+    <ngx-slider [(value)]="ecgModel.inputValues[3]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
     <br/><br/><span class="title">Загальні параметри</span><br/>
     <span>ЧСС (уд./хв.)</span>
     <ngx-slider [(value)]="ecgModel.Fh"  [options]="optionsFn" (userChange)="onSliderChanged()"></ngx-slider>   

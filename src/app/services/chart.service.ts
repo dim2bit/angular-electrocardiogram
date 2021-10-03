@@ -14,13 +14,10 @@ export class ChartService {
     
     for (let t = 0; t <= ecgModel.t0; t += 0.001) {
       let a: number = 0;
-
-      a += this.getGaussianFunction(t, ecgModel.P);
-      a += this.getGaussianFunction(t, ecgModel.Q);
-      a += this.getGaussianFunction(t, ecgModel.R);
-      a += this.getGaussianFunction(t, ecgModel.S);
-      a += this.getGaussianFunction(t, ecgModel.ST);
-      a += this.getGaussianFunction(t, ecgModel.T);
+      
+      for (let i in ecgModel.prongs) {
+        a += this.getGaussianFunction(t, ecgModel.prongs[i]);
+      }
 
       points.push({ x: t, y: a });
     }
