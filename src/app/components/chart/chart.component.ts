@@ -1,7 +1,8 @@
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { lightningChart, ChartXY, Point, LineSeries } from '@arction/lcjs'
+import { Subscription } from 'rxjs';
 import { EcgModel } from '../../models/ecg.model';
 import { ChartService } from '../../services/chart.service';
 
@@ -25,11 +26,22 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   public optionsB: Options = { floor: 0.001, ceil: 0.25, step: 0.001 }; 
   public optionsFn: Options = { floor: 30, ceil: 130, step: 1 };
 
+  private routeSub: Subscription;
+
   constructor(
     private chartService: ChartService, 
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.points = chartService.getPoints(this.ecgModel);
+  }
+
+  ngOnInit() {
+    this.routeSub = this.route.queryParams.subscribe(params => {
+      this.ecgModel = JSON.parse(params["ecg"]);
+    });
+
+    this.points = this.chartService.getPoints(this.ecgModel);
   }
 
   ngOnChanges() {
@@ -47,17 +59,19 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
     this.lineSeries.add(this.points);
   }
 
-  ngOnDestroy() {
-    this.chart.dispose();
+  public onGenerateBtnClicked(event: Event) {
+    let extras: NavigationExtras = {
+      queryParams: {
+        "ecg": JSON.stringify(this.ecgModel)
+      }
+    };
+
+    this.router.navigate(['/generated'], extras);
   }
 
   public onSliderChanged() {
     this.refreshEcgModelOnSliderChange(this.radioId);
     this.refreshGraph();
-  }
-
-  public onGenerateBtnClicked(event: Event) {
-    this.router.navigate(['/generated']);
   }
 
   public onRadioChanged(event: Event) {
@@ -79,5 +93,10 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   private refreshEcgModelOnSliderChange(prong: string) {
     this.ecgModel.t0 = 60 / this.ecgModel.Fh;
     this.ecgModel.prongs[prong] = this.currentProng;
+  }
+
+  ngOnDestroy() {
+    this.chart.dispose();
+    this.routeSub.unsubscribe();
   }
 }
