@@ -1,7 +1,8 @@
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { lightningChart, ChartXY, Point, LineSeries } from '@arction/lcjs'
-import { EcgModel } from '../../models/EcgModel';
+import { EcgModel } from '../../models/ecg.model';
 import { ChartService } from '../../services/chart.service';
 
 @Component({
@@ -24,7 +25,10 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   public optionsB: Options = { floor: 0.001, ceil: 0.25, step: 0.001 }; 
   public optionsFn: Options = { floor: 30, ceil: 130, step: 1 };
 
-  constructor(private chartService: ChartService) {
+  constructor(
+    private chartService: ChartService, 
+    private router: Router
+  ) {
     this.points = chartService.getPoints(this.ecgModel);
   }
 
@@ -50,6 +54,10 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   public onSliderChanged() {
     this.refreshEcgModelOnSliderChange(this.radioId);
     this.refreshGraph();
+  }
+
+  public onGenerateBtnClicked(event: Event) {
+    this.router.navigate(['/generated']);
   }
 
   public onRadioChanged(event: Event) {

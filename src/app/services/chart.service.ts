@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Point } from '@arction/lcjs';
-import { EcgModel } from '../models/EcgModel';
+import { EcgModel } from '../models/ecg.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,0 +1,23 @@
+div { 
+  height: 100% 
+}
+
+#chart {
+  height: 70vh;
+}
+
+#sliders {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+}
+
+#to-home-btn {
+  margin-top: 4%;
+}
+
+.slider {
+  display: inline-block;
+  width: 20%;
+  margin: 4%;
+}

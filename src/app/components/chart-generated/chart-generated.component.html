@@ -1,0 +1,22 @@
+<div class="content" role="main">
+  <div id="chart">
+    <div [id]="this.chartId"></div>
+  </div>
+  <div id="sliders">
+    <div class="slider">
+      <span>Кількість циклів</span>
+      <ngx-slider [options]="optionsLoops" (userChange)="onSliderChanged()"></ngx-slider>  
+    </div>
+    <div class="slider">
+      <span>Рівень альтернації T</span>
+      <ngx-slider [options]="optionsAlt" (userChange)="onSliderChanged()"></ngx-slider> 
+    </div>
+    <div class="slider">
+      <span>Рівень шуму</span>
+      <ngx-slider [options]="optionsH" (userChange)="onSliderChanged()"></ngx-slider> 
+    </div> 
+    <div id="to-home-btn">
+      <button class="button" (click)="onToHomeBtnClicked($event)">←</button>
+    </div>
+  </div>
+</div>

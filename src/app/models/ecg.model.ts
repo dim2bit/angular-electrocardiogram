@@ -1,7 +1,7 @@
 export class EcgModel {
     public Fh: number = 60;
     public t0: number = 60 / this.Fh;
-
+  
     public prongs = { 
         'P':  [0.11, 0.332, 0.025, 0.024],
         'Q':  [-0.159, 0.4414, 0.012, 0.008], 
