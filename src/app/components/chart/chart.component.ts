@@ -32,16 +32,14 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
     private chartService: ChartService, 
     private router: Router,
     private route: ActivatedRoute
-  ) {
-    this.points = chartService.getPoints(this.ecgModel);
-  }
+  ) { }
 
   ngOnInit() {
     this.routeSub = this.route.queryParams.subscribe(params => {
       this.ecgModel = JSON.parse(params["ecg"]);
     });
 
-    this.points = this.chartService.getPoints(this.ecgModel);
+    this.points = this.chartService.getBaseChartPoints(this.ecgModel);
   }
 
   ngOnChanges() {
@@ -81,7 +79,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   private refreshGraph() {
-    this.points = this.chartService.getPoints(this.ecgModel);
+    this.points = this.chartService.getBaseChartPoints(this.ecgModel);
     this.lineSeries.clear();
     this.lineSeries.add(this.points);
   }

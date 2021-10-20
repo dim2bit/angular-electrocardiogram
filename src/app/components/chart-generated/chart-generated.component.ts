@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { lightningChart, ChartXY, Point, LineSeries } from '@arction/lcjs'
 import { Subscription } from 'rxjs';
 import { EcgGeneratedModel, EcgModel } from 'src/app/models/ecg.model';
-import { ChartGeneratedService } from 'src/app/services/chart-generated.service';
+import { ChartService } from 'src/app/services/chart.service';
 
 @Component({
   selector: 'app-chart-generated',
@@ -25,7 +25,7 @@ export class ChartGeneratedComponent implements OnChanges, OnDestroy, AfterViewI
   private routeSub: Subscription;
 
   constructor(
-    private chartService: ChartGeneratedService, 
+    private chartService: ChartService, 
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -37,7 +37,7 @@ export class ChartGeneratedComponent implements OnChanges, OnDestroy, AfterViewI
       this.ecgModel.alt = 0.1;
     });
 
-    this.points = this.chartService.getPoints(this.ecgModel);
+    this.points = this.chartService.getGeneratedChartPoints(this.ecgModel);
   }
 
   ngOnChanges() {
@@ -66,7 +66,14 @@ export class ChartGeneratedComponent implements OnChanges, OnDestroy, AfterViewI
   }
 
   public onSliderChanged() {
+    this.ecgModel.t0 = 60 / this.ecgModel.Fh;
+    this.refreshGraph();
+  }
 
+  private refreshGraph() {
+    this.points = this.chartService.getGeneratedChartPoints(this.ecgModel);
+    this.lineSeries.clear();
+    this.lineSeries.add(this.points);
   }
 
   ngOnDestroy() {

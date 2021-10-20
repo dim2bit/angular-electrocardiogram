@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Point } from '@arction/lcjs';
-import { EcgModel } from '../models/ecg.model';
+import { EcgGeneratedModel, EcgModel } from '../models/ecg.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class ChartService {
 
   constructor() { }
 
-  public getPoints(ecgModel: EcgModel): Point[] {
+  public getBaseChartPoints(ecgModel: EcgModel): Point[] {
     let points: Point[] = [];
     
     for (let t = 0; t <= ecgModel.t0; t += 0.001) {
@@ -23,6 +23,49 @@ export class ChartService {
     }
     
     return points;
+  }
+
+  public getGeneratedChartPoints(ecgModel: EcgGeneratedModel) {
+    let points: Point[] = [];
+    
+    for (let m = 0; m < ecgModel.M; m++) {
+      points = points.concat(this.getSingleGeneratedChartPoints(ecgModel, m));
+    }
+
+    return points;
+  }
+
+  private getSingleGeneratedChartPoints(ecgModel: EcgGeneratedModel, m: number) {
+    let points: Point[] = [];
+    let prongT = this.getAlteratedProngT(ecgModel, m);
+
+    for (let t = m * ecgModel.t0; t < (m + 1) * ecgModel.t0; t += 0.001) {
+      let a: number = 0;
+      let k: number = t % ecgModel.t0;
+      
+      for (let i in ecgModel.prongs) {
+        if (i == 'T') {
+          a += this.getGaussianFunction(k, prongT);
+          continue;
+        }
+
+        a += this.getGaussianFunction(k, ecgModel.prongs[i]);
+      }
+      points.push({ x: t, y: a });
+    }
+
+    return points;
+  }
+
+  private getAlteratedProngT(ecgModel: EcgGeneratedModel, m: number) {
+    let prongT: number[] = ecgModel.prongs['T'].slice();
+    let isAlterated = m % 2 !== 1;
+                  
+    if (isAlterated) {
+      prongT[0] = prongT[0] + ecgModel.alt;
+    }
+
+    return prongT;
   }
 
   private getGaussianFunction(t: number, prong: number[]): number {
