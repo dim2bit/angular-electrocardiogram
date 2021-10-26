@@ -39,7 +39,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
       this.ecgModel = JSON.parse(params["ecg"]);
     });
 
-    this.points = this.chartService.getBaseChartPoints(this.ecgModel);
+    this.points = this.chartService.getBaseChart(this.ecgModel);
   }
 
   ngOnChanges() {
@@ -79,7 +79,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   private refreshGraph() {
-    this.points = this.chartService.getBaseChartPoints(this.ecgModel);
+    this.points = this.chartService.getBaseChart(this.ecgModel);
     this.lineSeries.clear();
     this.lineSeries.add(this.points);
   }

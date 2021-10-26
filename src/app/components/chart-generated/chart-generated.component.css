@@ -12,8 +12,12 @@ div {
   justify-content: center;
 }
 
-#to-home-btn {
-  margin-top: 4%;
+#smoothing-radios {
+  font-size: large;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 3%;
 }
 
 .slider {
@@ -21,3 +25,4 @@ div {
   width: 20%;
   margin: 4%;
 }
+

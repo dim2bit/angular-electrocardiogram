@@ -9,7 +9,7 @@ export class ChartService {
 
   constructor() { }
 
-  public getBaseChartPoints(ecgModel: EcgModel): Point[] {
+  public getBaseChart(ecgModel: EcgModel): Point[] {
     let points: Point[] = [];
     
     for (let t = 0; t <= ecgModel.t0; t += 0.001) {
@@ -25,17 +25,17 @@ export class ChartService {
     return points;
   }
 
-  public getGeneratedChartPoints(ecgModel: EcgGeneratedModel) {
+  public getGeneratedChart(ecgModel: EcgGeneratedModel) {
     let points: Point[] = [];
     
     for (let m = 0; m < ecgModel.M; m++) {
-      points = points.concat(this.getSingleGeneratedChartPoints(ecgModel, m));
+      points = points.concat(this.getSingleGeneratedChart(ecgModel, m));
     }
 
     return points;
   }
 
-  private getSingleGeneratedChartPoints(ecgModel: EcgGeneratedModel, m: number) {
+  private getSingleGeneratedChart(ecgModel: EcgGeneratedModel, m: number) {
     let points: Point[] = [];
     let prongT = this.getAlteratedProngT(ecgModel, m);
 
@@ -49,7 +49,7 @@ export class ChartService {
           continue;
         }
 
-        a += this.getGaussianFunction(k, ecgModel.prongs[i]);
+        a += this.getGaussianFunction(k, ecgModel.prongs[i]) + ecgModel.h * (Math.random() * 2 - 1);
       }
       points.push({ x: t, y: a });
     }

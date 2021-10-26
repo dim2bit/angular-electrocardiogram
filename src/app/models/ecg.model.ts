@@ -15,4 +15,5 @@ export class EcgModel {
 export class EcgGeneratedModel extends EcgModel {
     public M: number;
     public alt: number;
+    public h: number;
 }
