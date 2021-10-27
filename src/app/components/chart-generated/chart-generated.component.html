@@ -3,35 +3,38 @@
     <div [id]="this.chartId"></div>
   </div>
   <div id="sliders">
-      <div *ngIf="!this.smoothingMenu" class="slider">
+      <div *ngIf="!this.smoothingMenu.isActive" class="slider">
         <span>Кількість циклів</span>
-        <ngx-slider [(value)]="this.ecgModel.M" [options]="optionsLoops" (userChange)="onSliderChanged()"></ngx-slider>  
+        <ngx-slider [(value)]="this.ecgModel.M" [options]="this.sliderOptions.loops" (userChange)="onSliderChanged()"></ngx-slider>  
       </div>
-      <div *ngIf="!this.smoothingMenu" class="slider">
+      <div *ngIf="!this.smoothingMenu.isActive" class="slider">
         <span>Рівень альтернації T</span>
-        <ngx-slider [(value)]="this.ecgModel.alt" [options]="optionsAlt" (userChange)="onSliderChanged()"></ngx-slider> 
+        <ngx-slider [(value)]="this.ecgModel.alt" [options]="this.sliderOptions.alt" (userChange)="onSliderChanged()"></ngx-slider> 
       </div>
-      <div *ngIf="!this.smoothingMenu" class="slider">
+      <div *ngIf="!this.smoothingMenu.isActive" class="slider">
         <span>Рівень шуму</span>
-        <ngx-slider [(value)]="this.ecgModel.h" [options]="optionsH" (userChange)="onSliderChanged()"></ngx-slider> 
+        <ngx-slider [(value)]="this.ecgModel.h" [options]="this.sliderOptions.h" (userChange)="onSliderChanged()"></ngx-slider> 
       </div> 
-      <div *ngIf="!this.smoothingMenu">
+      <div *ngIf="!this.smoothingMenu.isActive">
         <button class="button" (click)="onToHomeBtnClicked()">←</button>
         <button class="button" (click)="onSmoothBtnClicked()">Згладжування</button>
       </div>
-      <div *ngIf="this.smoothingMenu && this.isExponential" class="slider">
+      <div *ngIf="this.smoothingMenu.isActive && this.isExponential" class="slider">
         <span>Параметр альфа</span>
-        <ngx-slider [(value)]="this.alphaValue" [options]="optionsAlpha" (userChange)="applyExponentialSmoothing()"></ngx-slider>  
+        <ngx-slider [(value)]="this.smoothingMenu.alpha" [options]="this.sliderOptions.alpha" (userChange)="applyExponentialSmoothing()"></ngx-slider>  
       </div>
-      <div *ngIf="this.smoothingMenu && !this.isExponential" class="slider">
+      <div *ngIf="this.smoothingMenu.isActive && !this.isExponential" class="slider">
         <span>Ширина вікна</span>
-        <ngx-slider [(value)]="this.widthValue" [options]="optionsWidth" (userChange)="applySlidingSmoothing()"></ngx-slider> 
+        <ngx-slider [(value)]="this.smoothingMenu.w0" [options]="this.sliderOptions.w0" (userChange)="applySlidingSmoothing()"></ngx-slider> 
       </div>
-      <div *ngIf="this.smoothingMenu" id="smoothing-radios">
+      <div *ngIf="this.smoothingMenu.isActive" id="smoothing-radios">
         <label for="exponential-smoothing">Експоненційне згладжування</label>
         <input type="radio" id="exponential-smoothing" name="smoothing" (change)="applyExponentialSmoothing()" checked>
         <label for="sliding-smoothing">Ковзне згладжування</label>
         <input type="radio" id="sliding-smoothing" name="smoothing" (change)="applySlidingSmoothing()">
+      </div>
+      <div *ngIf="this.smoothingMenu.isActive" id="stop-smoothing-btn">
+        <button class="button" (click)="onStopSmoothingBtnClicked()">Завершити згладжування</button>
       </div>
   </div>
 </div>

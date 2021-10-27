@@ -20,6 +20,11 @@ div {
   margin-top: 3%;
 }
 
+#stop-smoothing-btn {
+  margin-left: 7%;
+  margin-top: 2%;
+}
+
 .slider {
   display: inline-block;
   width: 20%;

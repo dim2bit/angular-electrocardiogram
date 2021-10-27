@@ -1,8 +1,8 @@
-import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { lightningChart, ChartXY, Point, LineSeries } from '@arction/lcjs'
 import { Subscription } from 'rxjs';
+import { SliderOptions } from 'src/app/models/chart-view.model';
 import { EcgModel } from '../../models/ecg.model';
 import { ChartService } from '../../services/chart.service';
 
@@ -20,11 +20,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
   public points: Point[];
   public radioId: string = 'T';
   public currentProng = this.ecgModel.prongs['T'];
-
-  public optionsNu: Options = { floor: 0, ceil: 1, step: 0.05 }; 
-  public optionsAmpl: Options = { floor: -0.5, ceil: 1.2, step: 0.05 }; 
-  public optionsB: Options = { floor: 0.001, ceil: 0.25, step: 0.001 }; 
-  public optionsFn: Options = { floor: 30, ceil: 130, step: 1 };
+  public sliderOptions: SliderOptions = new SliderOptions;
 
   private routeSub: Subscription;
 

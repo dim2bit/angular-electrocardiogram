@@ -1,8 +1,8 @@
-import { Options } from '@angular-slider/ngx-slider';
-import { Component, Input, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { lightningChart, ChartXY, Point, LineSeries } from '@arction/lcjs'
 import { Subscription } from 'rxjs';
+import { SliderOptions, SmoothingMenu } from 'src/app/models/chart-view.model';
 import { EcgGeneratedModel } from 'src/app/models/ecg.model';
 import { ChartSmoothingService } from 'src/app/services/chart-smoothing.service';
 import { ChartService } from 'src/app/services/chart.service';
@@ -16,21 +16,14 @@ export class ChartGeneratedComponent implements OnChanges, OnDestroy, AfterViewI
   public chart: ChartXY;
   public lineSeries: LineSeries;
   public chartId: number;
+  public sliderOptions: SliderOptions = new SliderOptions;
 
-  public ecgModel: EcgGeneratedModel = new EcgGeneratedModel;
   public points: Point[];
   public pointsNonSmoothed: Point[];
+  public ecgModel: EcgGeneratedModel = new EcgGeneratedModel;
 
-  public alphaValue: number = 0.5;
-  public widthValue: number = 0;
+  public smoothingMenu: SmoothingMenu = new SmoothingMenu;
   public isExponential: boolean = true;
-  public smoothingMenu: boolean = false;
-
-  public optionsLoops: Options = { floor: 0, ceil: 100, step: 1 }; 
-  public optionsAlt: Options = { floor: -0.25, ceil: 0.25, step: 0.001 }; 
-  public optionsH: Options = { floor: 0, ceil: 0.05, step: 0.0001 }; 
-  public optionsAlpha: Options = { floor: 0, ceil: 1, step: 0.01 };
-  public optionsWidth: Options = { floor: 25, ceil: 100, step: 1 };
 
   private routeSub: Subscription;
 
@@ -80,18 +73,30 @@ export class ChartGeneratedComponent implements OnChanges, OnDestroy, AfterViewI
   public onSmoothBtnClicked() {
     this.pointsNonSmoothed = this.points.slice();
     this.applyExponentialSmoothing();
-    this.smoothingMenu = true;
+    this.smoothingMenu.isActive = true;
+  }
+
+  public onStopSmoothingBtnClicked() {
+    this.points = this.pointsNonSmoothed.slice();
+    this.smoothingMenu.isActive = false;
+    this.refresh();
   }
 
   public applyExponentialSmoothing() {
     this.isExponential = true;
-    this.points = this.smoothingService.applyExponentialSmoothing(this.pointsNonSmoothed, this.alphaValue);
+    this.points = this.smoothingService.applyExponentialSmoothing(
+        this.pointsNonSmoothed, this.smoothingMenu.alpha
+    );
+
     this.refresh();
   } 
 
   public applySlidingSmoothing() {
     this.isExponential = false;
-    this.points = this.smoothingService.applySlidingSmoothing(this.pointsNonSmoothed, this.widthValue);
+    this.points = this.smoothingService.applySlidingSmoothing(
+        this.pointsNonSmoothed, this.smoothingMenu.w0
+    );
+
     this.refresh();
   }
 

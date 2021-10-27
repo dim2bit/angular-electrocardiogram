@@ -25,16 +25,16 @@
     </div>
     <br/><span class="title">Параметри моделі</span><br/>
     <span>Амплітуда (А)</span>
-    <ngx-slider [(value)]="currentProng[0]"  [options]="optionsAmpl" (userChange)="onSliderChanged()"></ngx-slider>  
+    <ngx-slider [(value)]="currentProng[0]" [options]="this.sliderOptions.ampl" (userChange)="onSliderChanged()"></ngx-slider>  
     <span>Час (Мю)</span>
-    <ngx-slider [(value)]="currentProng[1]" [options]="optionsNu" (userChange)="onSliderChanged()"></ngx-slider> 
+    <ngx-slider [(value)]="currentProng[1]" [options]="this.sliderOptions.nu" (userChange)="onSliderChanged()"></ngx-slider> 
     <span>Ширина (b(1))</span>
-    <ngx-slider [(value)]="currentProng[2]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
+    <ngx-slider [(value)]="currentProng[2]" [options]="this.sliderOptions.b" (userChange)="onSliderChanged()"></ngx-slider>  
     <span>Ширина (b(2))</span>
-    <ngx-slider [(value)]="currentProng[3]" [options]="optionsB" (userChange)="onSliderChanged()"></ngx-slider>  
+    <ngx-slider [(value)]="currentProng[3]" [options]="this.sliderOptions.b" (userChange)="onSliderChanged()"></ngx-slider>  
     <br/><br/><span class="title">Загальні параметри</span><br/>
     <span>ЧСС (уд./хв.)</span>
-    <ngx-slider [(value)]="ecgModel.Fh"  [options]="optionsFn" (userChange)="onSliderChanged()"></ngx-slider> 
+    <ngx-slider [(value)]="ecgModel.Fh"  [options]="this.sliderOptions.fn" (userChange)="onSliderChanged()"></ngx-slider> 
     <button class="button" (click)="onGenerateBtnClicked($event)">Генерація</button>  
   </div>
 </div>

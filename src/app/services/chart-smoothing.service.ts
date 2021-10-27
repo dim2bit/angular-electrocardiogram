@@ -8,18 +8,28 @@ export class ChartSmoothingService {
 
   constructor() { }
 
-  public applyExponentialSmoothing(points: Point[], alpha: number): Point[] {
-    let pointsSmoothed: Point[] = [points[0]];
+  public applyExponentialSmoothing(z: Point[], alpha: number): Point[] {
+    let z0: Point[] = [z[0]];
 
-    for (let i = 1; i < points.length; i++) {
-      let y0 = pointsSmoothed[i - 1].y + alpha * (points[i].y - pointsSmoothed[i - 1].y);
-      pointsSmoothed.push({ x: points[i].x, y: y0 });
+    for (let i = 1; i < z.length; i++) {
+      const y0 = z0[i - 1].y + alpha * (z[i].y - z0[i - 1].y);
+      
+      z0.push({ x: z[i].x, y: y0 });
     }
 
-    return pointsSmoothed;
+    return z0;
   }
 
-  public applySlidingSmoothing(points: Point[], width: number): Point[] {
-    return points;
+  public applySlidingSmoothing(z: Point[], w0: number): Point[] {
+    let z0: Point[] = [];
+    const arrSum = arr => arr.reduce((a,b) => a + b.y, 0);
+    
+    for (let i = 0; i < z.length - (w0 - 1); i++) {
+      const y0 = arrSum(z.slice(i, i + w0)) / w0;
+
+      z0.push({ x: z[i].x, y: y0 });
+    }
+
+    return z0;
   }
 }
